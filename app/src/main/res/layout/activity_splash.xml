@@ -78,7 +78,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:text="Developed by Myinvented.com"
+            android:text="Developed by Shekhar Aggarwal"
             android:textAlignment="center"
             android:textColor="@android:color/holo_red_dark"
             android:textSize="12sp" />

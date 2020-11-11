@@ -44,13 +44,7 @@ public class SplashActivity extends AppCompatActivity {
                 .build();
         Fabric.with(fabric);*/
 
-//        Typeface face = Typeface.createFromAsset(getAssets(), "fonts/NABILA.TTF");
         text = findViewById(R.id.text);
-//        text.setText(Html.fromHtml("<br>" + getResources().getString(R.string.welcomes_you_in_1) + "</br>"
-//                + "<br>" + "<b><i>" + getResources().getString(R.string.welcomes_you_in_2) + "</i></b>" + "</br>"
-//                + "<br>" + getResources().getString(R.string.welcomes_you_in_3) + "</br>"
-//                + "<br>" + getResources().getString(R.string.welcomes_you_in_4) + "</br>"
-//                + "<br>" + getResources().getString(R.string.welcomes_you_in_5) + "</br>"));
 
 
         new Handler().postDelayed(new Runnable() {
