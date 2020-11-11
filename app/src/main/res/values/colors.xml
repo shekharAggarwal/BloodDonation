@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#000000</color>
+    <color name="colorPrimaryDark">#00000000</color>
+    <color name="colorAccent">#000000</color>
+
+<!--    <color name="btnSignActive">#DC143C</color>-->
+    <color name="btnSignActive">#990036</color>
+    <color name="btnSignShadow">#CA6188</color>
+<!--    <color name="btnSignShadow">#F08080</color>-->
+
+    <color name="overlayBackground">#7f333639</color>
+    <color name="overlayActionbar">#0e0d0e</color>
+
+    <color name="colorLayerBack">#8a56ab</color>
+    <color name="colorTitle">#362742</color>
+    <color name="colorSubTitle">#c5c9cf</color>
+    <color name="divider_grey">#d4d4d4</color>
+
+    <color name="colorBack">#241333</color>
+    <color name="black">#ff000000</color>
+
+    <color name="colorTitleWhite">#FFFFFF</color>
+    <color name="colorSubTitleWhite">#b795ce</color>
+    <color name="colorHorizontalDivider">#898a56ab</color>
+    <color name="colorTransparentWhite">#cccccc</color>
+    <color name="back">#404040</color>
+
+    <color name="yellow_back">#fdd835</color>
+    <color name="bacgtop">#AD1B57</color>
+    <color name="backtop">#C56585</color>
+</resources>

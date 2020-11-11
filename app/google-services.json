@@ -1,0 +1,56 @@
+{
+  "project_info": {
+    "project_number": "385329143094",
+    "firebase_url": "https://bharat-blood-bank.firebaseio.com",
+    "project_id": "bharat-blood-bank",
+    "storage_bucket": "bharat-blood-bank.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:385329143094:android:164de97f69338b78",
+        "android_client_info": {
+          "package_name": "com.bharatbloodbank.bharatbloodbank"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "385329143094-9ouu742jt79lnpjp0ul9vp2i473a64vk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bharatbloodbank.bharatbloodbank",
+            "certificate_hash": "e229b2cf6575507f0d69e0ea9059a58005208e81"
+          }
+        },
+        {
+          "client_id": "385329143094-c5atjkmrtbndqcro8efo0katrc420llq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bharatbloodbank.bharatbloodbank",
+            "certificate_hash": "590b452b3415cdb4016846d2bd63da6791ebcc64"
+          }
+        },
+        {
+          "client_id": "385329143094-vf8cnpesjhrevq25r1cdk18oi47c5ijq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCgI6n8PVrKWVEsJV-ZLyNzQhq_x0ztJI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "385329143094-vf8cnpesjhrevq25r1cdk18oi47c5ijq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

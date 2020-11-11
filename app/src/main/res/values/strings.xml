@@ -1,0 +1,59 @@
+<resources>
+    <string name="app_name">Rakt</string>
+    <string name="Slogan">Bharat\nRakt\nDonation</string>
+    <string name="title_activity_home">Home</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_notification">Notification</string>
+    <string name="action_all">Send To All</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_profile">Profile</string>
+    <string name="menu_request">Request</string>
+    <string name="menu_share">Share</string>
+    <string name="menu_logout">Logout</string>
+    <string name="title_activity_status">StatusActivity</string>
+    <string name="no_notification">No New Notification</string>
+    <string name="no_notification_1">Oops! No notification for you yet!</string>
+    <string name="no_request">No Request Sent</string>
+    <string name="no_request_1">Oops! No Request sent yet!</string>
+    <string name="name">Name*</string>
+    <string name="mobile_number">Mobile Number*</string>
+    <string name="email">Email</string>
+    <string name="submit">Submit</string>
+    <string name="city">City</string>
+    <string name="register">Register</string>
+    <string name="login">Login</string>
+    <string name="otp">OTP</string>
+    <string name="resend_otp">Resend OTP</string>
+    <string name="verify">Verify</string>
+    <string name="timer">Timer</string>
+    <string name="txt_otp_message">Enter One Time Password (OTP)\nOne Time Password (OTP) has been\nsend to your phone number, Please\nenter the same here to login.</string>
+    <string name="txt_phone_message">Don\'t worry! just fill \nin your phone number for login </string>
+    <string name="phone_number">Phone Number</string>
+
+    <string name="no_internet_connection">No Internet Connection</string>
+    <string name="try_these_steps_to_get_back_online">Try these steps to get back online</string>
+    <string name="check_your_modem_and_router">Check your modem and router</string>
+    <string name="reconnect_to_wi_fi">Reconnect to Wi-Fi</string>
+    <string name="try_again">Try Again</string>
+    <string name="your_ratting">YOUR RATTING</string>
+    <string name="ratting_text_review">Please give me five stars ratting \nand write your review!</string>
+    <string name="dot_line">................................................................................................................</string>
+    <string name="wirte_your_review">wirte your review..</string>
+    <string name="blood_group">Blood Group</string>
+    <string name="address">Address</string>
+    <string name="phone">Phone</string>
+    <string name="dob">DOB</string>
+    <string name="gender">gender</string>
+    <string name="welcomes_you_in_1">Welcomes you in the family of</string>
+    <string name="welcomes_you_in_2"><b><i>Bharat Rakt Donation.</i></b></string>
+    <string name="welcomes_you_in_3">Let\'s come together to</string>
+    <string name="welcomes_you_in_4">form healthy-wealthy </string>
+    <string name="welcomes_you_in_5">and strong India.</string>
+    <string name="welcomes_you_in">Welcomes you in the family\n <b><i>of Bharat Rakt Donation.</i></b>\n Let\'s come together to\n form healthy-wealthy\n and strong India.</string>
+
+</resources>

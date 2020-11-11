@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/loadList"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardElevation="4dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/BankName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:gravity="center_vertical"
+                android:textColor="@android:color/black"
+                android:text="JAIPUR JEEVANDATA"
+                android:maxLines="2"
+                android:textAllCaps="true"
+                android:textSize="18dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/BankRating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    style="?android:attr/ratingBarStyleSmall"
+                    android:text="4.2" />
+
+                <RatingBar
+                    android:id="@+id/BankRatingBar"
+                    android:layout_width="wrap_content"
+                    android:progressTint="#FFEB3B"
+                    android:stepSize="0.5"
+                    android:gravity="center"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_height="wrap_content"
+                    android:numStars="5"
+                    style="?android:attr/ratingBarStyleSmall"
+                    android:rating="4.2" />
+
+                <TextView
+                    android:id="@+id/BankRated"
+                    android:layout_width="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    style="?android:attr/ratingBarStyleSmall"
+                    android:layout_height="wrap_content"
+                    android:text="(5)" />
+
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/BankDistance"
+                android:layout_width="wrap_content"
+                style="?android:attr/ratingBarStyleSmall"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|start"
+                android:text="55mil"
+                android:textStyle="italic" />
+
+            <TextView
+                android:id="@+id/BankOpening"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Open Now"
+                android:textSize="12dp"
+                android:enabled="false" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/BankDirection"
+            android:layout_width="30dp"
+            android:src="@drawable/ic_directions_black_24dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_marginRight="7dp" />
+    </LinearLayout>
+
+
+</androidx.cardview.widget.CardView>
