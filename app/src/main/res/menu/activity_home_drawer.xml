@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home_black_24dp"
+            android:iconTint="@android:color/white"
+            android:title="Home" />
+
+        <item
+            android:id="@+id/nav_profile"
+            android:icon="@drawable/ic_person_black_24dp"
+            android:iconTint="@android:color/white"
+            android:title="Profile" />
+        <item
+            android:id="@+id/nav_banner"
+            android:icon="@drawable/ic_menu_camera"
+            android:iconTint="@android:color/white"
+            android:title="Banner" />
+
+        <item
+            android:id="@+id/nav_request_received"
+            android:icon="@drawable/ic_healing_black_24dp"
+            android:iconTint="@android:color/white"
+            android:title="Request Received" />
+
+        <item
+            android:id="@+id/nav_request_send"
+            android:icon="@drawable/ic_healing_black_24dp"
+            android:iconTint="@android:color/white"
+            android:title="Request Send" />
+
+        <item
+            android:id="@+id/nav_history"
+            android:icon="@drawable/ic_settings_black_24dp"
+            android:iconTint="@android:color/white"
+            android:title="History" />
+
+        <item
+            android:id="@+id/nav_help"
+            android:icon="@drawable/ic_help_black_24dp"
+            android:iconTint="@android:color/white"
+            android:title="Help" />
+
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/ic_exit_to_app_black_24dp"
+            android:iconTint="@android:color/white"
+            android:title="Sign out" />
+
+    </group>
+
+
+</menu>

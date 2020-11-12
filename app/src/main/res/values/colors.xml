@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--<color name="colorPrimary">#008577</color>-->
+    <!--<color name="colorPrimaryDark">#00574B</color>-->
+    <!--<color name="colorAccent">#D81B60</color>-->
+
+    <color name="colorPrimary">#004d40</color>
+    <color name="colorPrimaryDark">#00251a</color>
+    <color name="colorAccent">#39796b</color>
+
+    <color name="btnSignUp">#39796b</color>
+    <color name="btnSignActive">#A9d440</color>
+
+    <color name="overlayBackground">#7f333639</color>
+    <color name="overlayActionbar">#0e0d0e</color>
+
+    <color name="bgRowBackground">#FA315B</color>
+
+    <color name="profileColor">#FFFFFF</color>
+    <color name="colorLayerBack">#8a56ab</color>
+    <color name="colorTitle">#362742</color>
+    <color name="colorSubTitle">#c5c9cf</color>
+    <color name="colorBack">#241333</color>
+
+    <color name="colorTitleWhite">#FFFFFF</color>
+    <color name="colorSubTitleWhite">#b795ce</color>
+    <color name="colorHorizontalDivider">#898a56ab</color>
+    <color name="colorBtnRequest">#4949E4</color>
+
+    <color name="colorAccepted">#DDF9D9</color>
+    <color name="colorDenied">#FFE5BC</color>
+    <color name="colorRequested">#ADD9FE</color>
+
+</resources>

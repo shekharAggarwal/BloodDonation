@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    tools:context=".Help">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/i1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="19dp"
+                android:text="Guidelines"
+                android:textColor="@android:color/holo_red_dark"
+                android:textSize="40dp"
+                android:textStyle="bold|italic" />
+
+            <TextView
+                android:id="@+id/i2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/i1"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:text="Eligiblity For Blood Donation"
+                android:textColor="@android:color/holo_red_light"
+                android:textSize="20dp"
+                android:textStyle="bold|italic" />
+
+            <TextView
+                android:id="@+id/i3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/i2"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:text="\u2022 Be in good general health and feeling well.\n\n\u2022 Be at least 18 years old in most states( 17 years old with \n  parental consent in same states).\n\n\u2022 weigh at least 110 lbs. Additional height and weight younger \n  and all high school student donors.\n\n\u2022 Have not donated blood in last 3 months.\n"
+                android:textColor="@android:color/black" />
+
+
+            <info.hoang8f.widget.FButton
+                android:id="@+id/b1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/i3"
+                android:layout_centerHorizontal="true"
+                android:layout_margin="8dp"
+                android:layout_marginTop="10dp"
+                android:text="Help"
+                android:textColor="@android:color/white"
+                app:cornerRadius="4dp"
+                app:fButtonColor="@color/btnSignUp"
+                app:shadowColor="@android:color/black"
+                app:shadowEnabled="true"
+                app:shadowHeight="5dp" />
+        </RelativeLayout>
+    </LinearLayout>
+</RelativeLayout>
