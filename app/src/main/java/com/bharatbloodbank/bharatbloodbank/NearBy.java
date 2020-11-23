@@ -182,11 +182,11 @@ public class NearBy extends AppCompatActivity implements LocationListener, Conne
                     "query=blood+bank+in+" + City +
                     "&location=" + myLatLng.latitude + "," + myLatLng.longitude +
                     "&radius=10000" +
-                    "&key=AIzaSyAfKGBTBI41gXIk8kinlV6DTri7Zpdi_MM";
+                    "&key=<YOUR-KEY>";
         else
             requestApi = "https://maps.googleapis.com/maps/api/place/textsearch/json?" +
                     "query=blood+bank+in+" + City +
-                    "&key=AIzaSyAfKGBTBI41gXIk8kinlV6DTri7Zpdi_MM";
+                    "&key=<YOUR-KEY>";
 
         mService.getPath(requestApi)
                 .enqueue(new Callback<String>() {
