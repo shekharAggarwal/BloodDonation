@@ -23,10 +23,7 @@ import com.bharatbloodbank.bharatbloodbank.Remote.APIService;
 import com.bharatbloodbank.bharatbloodbank.Remote.FCMRetrofitClient;
 import com.bharatbloodbank.bharatbloodbank.Remote.IGoogleAPI;
 import com.bharatbloodbank.bharatbloodbank.Remote.RetrofitClient;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseException;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
@@ -41,17 +38,26 @@ import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
 public class Common {
+
     public static int Noti = 0;
     public static final int REQUEST_CODE = 1000;
 
     public static User currentUser, regUser;
+    public static String verificationCode, fromActivity;
     public static boolean isChecked = false;
     public static final int PICK_IMAGE_REQUEST = 71;
+    public static final int REQUEST_CHECK_SETTINGS = 1071;
     public static ArrayList<String> userPhone = new ArrayList<>();
     public static String[] gender = {" Male", "Female", "Others"},
             Blood = {"A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"};
     public static String Phone;
 
+    private static final String fcmURl = "https://fcm.googleapis.com/";
+    private static final String baseURL = "https://maps.googleapis.com";
+
+    /*
+     *THIS IS FOR CHECKING INTERNET CONNECTION
+     */
     public static boolean isConnectedToInternet(Context context) {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivityManager != null) {
@@ -65,19 +71,24 @@ public class Common {
         return false;
     }
 
-    private static final String fcmURl = "https://fcm.googleapis.com/";
-
+    /*
+     *THIS IS FOR SENDING NOTIFICATION
+     */
     public static APIService getFCMClient() {
         return FCMRetrofitClient.getClient(fcmURl).create(APIService.class);
 
     }
 
-    private static final String baseURL = "https://maps.googleapis.com";
-
+    /*
+     *THIS IS FOR SENDING MAP APIS
+     */
     public static IGoogleAPI getGoogleAPI() {
         return RetrofitClient.getClient(baseURL).create(IGoogleAPI.class);
     }
 
+    /*
+    * THIS FOR AGE CALCULATE
+    */
     public static int calAge(long date) {
         Calendar dob = Calendar.getInstance();
         dob.setTimeInMillis(date);
@@ -199,8 +210,6 @@ public class Common {
             context.getWindow().setStatusBarColor(context.getResources().getColor(R.color.bacgtop));
         }
     }
-
-    public static String verificationCode, fromActivity;
 
     private static PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallback;
 

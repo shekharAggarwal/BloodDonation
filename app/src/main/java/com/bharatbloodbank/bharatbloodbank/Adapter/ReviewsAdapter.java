@@ -20,14 +20,15 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHolder> {
 
-    List<Contact> contactList;
-    Context context;
+    private final List<Contact> contactList;
+    private final Context context;
 
     public ReviewsAdapter(List<Contact> contactList, Context context) {
         this.contactList = contactList;
@@ -44,7 +45,7 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         holder.UserName.setText(contactList.get(position).getName());
-        holder.UserRating.setText("( " + contactList.get(position).getRating() + " )");
+        holder.UserRating.setText(MessageFormat.format("( {0} )", contactList.get(position).getRating()));
         holder.UserReview.setText(contactList.get(position).getReview());
         holder.UserRatingBar.setRating(Float.parseFloat(contactList.get(position).getRating()) == 0.0 ?
                 0 : Float.parseFloat(contactList.get(position).getRating()));
@@ -72,7 +73,7 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ViewHold
         return contactList.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
 
         CircleImageView UserImage;
         TextView UserName, UserRating, UserReview;

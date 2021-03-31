@@ -17,11 +17,13 @@ import com.bharatbloodbank.bharatbloodbank.Common.Common;
 import com.bharatbloodbank.bharatbloodbank.Model.BloodBankNearBy;
 import com.bharatbloodbank.bharatbloodbank.R;
 
+import java.text.MessageFormat;
+
 
 public class BloodBankAdapter extends RecyclerView.Adapter<BloodBankAdapter.ViewHolder> {
 
-    private BloodBankNearBy[] bloodBankNear;
-    private Context context;
+    private final BloodBankNearBy[] bloodBankNear;
+    private final Context context;
 
     public BloodBankAdapter(BloodBankNearBy[] bloodBankNear, Context context) {
         this.bloodBankNear = bloodBankNear;
@@ -39,25 +41,25 @@ public class BloodBankAdapter extends RecyclerView.Adapter<BloodBankAdapter.View
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         holder.BankName.setText(bloodBankNear[position].getName());
         holder.BankRating.setText(String.valueOf(bloodBankNear[position].getRating()));
-        holder.BankRated.setText("(" + bloodBankNear[position].getUser_ratings_total() + ")");
+        holder.BankRated.setText(MessageFormat.format("({0})", bloodBankNear[position].getUser_ratings_total()));
         holder.BankDistance.setText(Integer.parseInt(bloodBankNear[position].getDistance()) > 0 ? bloodBankNear[position].getDistance() : "" +
                 " " +
                 (Integer.parseInt(bloodBankNear[position].getTime()) > 0 ? "  (" + bloodBankNear[position].getTime() + ")" : ""));
         holder.BankOpening.setText(Common.CheckOpenOrClose(bloodBankNear[position].isOpen_Close()));
         holder.BankRatingBar.setRating((float) bloodBankNear[position].getRating());
-        holder.BankDirection.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                Uri gmmIntentUri = Uri.parse("google.navigation:q=" + bloodBankNear[position].getBankLatLng().latitude + ","
-                        + bloodBankNear[position].getBankLatLng().longitude + "&mode=" +
-                        "d&location=" + bloodBankNear[position].getUser_latLng().latitude +
-                        "," + bloodBankNear[position].getUser_latLng().longitude);
+        /*
+         * THIS IS FOR SENDING USER TO GOOGLE MAP
+         */
+        holder.BankDirection.setOnClickListener(view -> {
+            Uri gmmIntentUri = Uri.parse("google.navigation:q=" + bloodBankNear[position].getBankLatLng().latitude + ","
+                    + bloodBankNear[position].getBankLatLng().longitude + "&mode=" +
+                    "d&location=" + bloodBankNear[position].getUser_latLng().latitude +
+                    "," + bloodBankNear[position].getUser_latLng().longitude);
 
-                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
-                mapIntent.setPackage("com.google.android.apps.maps");
-                context.startActivity(mapIntent);
-            }
+            Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+            mapIntent.setPackage("com.google.android.apps.maps");
+            context.startActivity(mapIntent);
         });
     }
 
@@ -69,7 +71,7 @@ public class BloodBankAdapter extends RecyclerView.Adapter<BloodBankAdapter.View
             return 0;
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
         TextView BankName, BankRating, BankRated, BankDistance, BankOpening;
         RatingBar BankRatingBar;
         ImageView BankDirection;

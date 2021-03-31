@@ -1,6 +1,5 @@
 package com.bharatbloodbank.bharatbloodbank;
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -8,11 +7,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.location.Location;
 import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -20,9 +17,10 @@ import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -32,33 +30,20 @@ import com.bharatbloodbank.bharatbloodbank.Model.BloodBankNearBy;
 import com.bharatbloodbank.bharatbloodbank.Network.ConnectivityReceiver;
 import com.bharatbloodbank.bharatbloodbank.Network.MyApplication;
 import com.bharatbloodbank.bharatbloodbank.Remote.IGoogleAPI;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
-import com.google.android.gms.location.LocationServices;
+import com.bharatbloodbank.bharatbloodbank.Service.GpsTracker;
 import com.google.android.gms.maps.model.LatLng;
-import com.karumi.dexter.Dexter;
-import com.karumi.dexter.MultiplePermissionsReport;
-import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.PermissionRequest;
-import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class NearBy extends AppCompatActivity implements LocationListener, ConnectivityReceiver.ConnectivityReceiverListener {
+public class NearBy extends AppCompatActivity implements ConnectivityReceiver.ConnectivityReceiverListener {
 
-    FusedLocationProviderClient fusedLocationProviderClient;
-    LocationCallback locationCallback;
-    LocationRequest locationRequest;
+
+    GpsTracker gpsTracker;
     LatLng myLatLng = null;
     IGoogleAPI mService;
     LatLng loc;
@@ -87,12 +72,6 @@ public class NearBy extends AppCompatActivity implements LocationListener, Conne
         }
         Common.setTop(this);
 
-        /*final Fabric fabric = new Fabric.Builder(this)
-                .kits(new Crashlytics())
-                .debuggable(true)
-                .build();
-        Fabric.with(fabric);*/
-
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -101,6 +80,7 @@ public class NearBy extends AppCompatActivity implements LocationListener, Conne
         mDialog = new ProgressDialog(NearBy.this);
         mDialog.setMessage("Please waiting....");
         mDialog.setCancelable(false);
+        mDialog.show();
 
         if (getIntent() != null) {
             city = getIntent().getStringExtra("city");
@@ -112,81 +92,35 @@ public class NearBy extends AppCompatActivity implements LocationListener, Conne
         blood_bank_list.setHasFixedSize(true);
 
 
-        Dexter.withActivity(this)
-                .withPermissions(Manifest.permission.ACCESS_COARSE_LOCATION,
-                        Manifest.permission.ACCESS_FINE_LOCATION)
-                .withListener(new MultiplePermissionsListener() {
-                    @RequiresApi(api = Build.VERSION_CODES.M)
-                    @Override
-                    public void onPermissionsChecked(MultiplePermissionsReport report) {
-
-                        if (report.areAllPermissionsGranted()) {
-                            buildLocationRequest();
-                            buildLocationCallBack();
-
-                            fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(NearBy.this);
-
-                            //start update location
-//                            if (Build.VERSION.SDK_INT >= 23)
-                            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                                    && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-                                return;
-                            }
-                            fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
-
-
-                        }
-                    }
-
-                    @Override
-                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
-                        Toast.makeText(NearBy.this, "Permission Denied", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(NearBy.this, Home.class));
-                    }
-                }).check();
-
-
-    }
-
-    private void buildLocationCallBack() {
-        locationCallback = new LocationCallback() {
-            @Override
-            public void onLocationResult(LocationResult locationResult) {
-//                super.onLocationResult(locationResult);
-                myLatLng = new LatLng(locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude());
-                getLocations(city);
-
+        try {
+            if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 101);
             }
-        };
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        gpsTracker = new GpsTracker(NearBy.this);
+        if (gpsTracker.canGetLocation()) {
+            double latitude = gpsTracker.getLatitude();
+            double longitude = gpsTracker.getLongitude();
+            myLatLng = new LatLng(latitude,longitude);
+            getLocations(city);
+        } else {
+            gpsTracker.showSettingsAlert();
+        }
     }
-
-    private void buildLocationRequest() {
-        locationRequest = new LocationRequest();
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        locationRequest.setInterval(5000);
-        locationRequest.setFastestInterval(3000);
-        locationRequest.setSmallestDisplacement(10f);
-
-    }
-
     private void getLocations(String City) {
-        mDialog = new ProgressDialog(NearBy.this);
-        mDialog.setMessage("Please waiting....");
-        mDialog.setCancelable(false);
-        mDialog.show();
-
         String requestApi;
         if (myLatLng != null)
             requestApi = "https://maps.googleapis.com/maps/api/place/textsearch/json?" +
                     "query=blood+bank+in+" + City +
                     "&location=" + myLatLng.latitude + "," + myLatLng.longitude +
                     "&radius=10000" +
-                    "&key=<YOUR-KEY>";
+                    "&key=AIzaSyDCgI6n8PVrKWVEsJV-ZLyNzQhq_x0ztJI";
         else
             requestApi = "https://maps.googleapis.com/maps/api/place/textsearch/json?" +
                     "query=blood+bank+in+" + City +
-                    "&key=<YOUR-KEY>";
+                    "&key=AIzaSyDCgI6n8PVrKWVEsJV-ZLyNzQhq_x0ztJI";
 
         mService.getPath(requestApi)
                 .enqueue(new Callback<String>() {
@@ -295,12 +229,6 @@ public class NearBy extends AppCompatActivity implements LocationListener, Conne
                     }
                 });
 
-    }
-
-    @Override
-    public void onLocationChanged(Location location) {
-        buildLocationRequest();
-        buildLocationCallBack();
     }
 
     @Override

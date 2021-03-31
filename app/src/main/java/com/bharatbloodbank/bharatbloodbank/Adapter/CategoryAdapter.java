@@ -1,11 +1,12 @@
 package com.bharatbloodbank.bharatbloodbank.Adapter;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bharatbloodbank.bharatbloodbank.Common.Common;
@@ -27,6 +30,7 @@ import com.bharatbloodbank.bharatbloodbank.Model.States;
 import com.bharatbloodbank.bharatbloodbank.NearBy;
 import com.bharatbloodbank.bharatbloodbank.R;
 import com.bharatbloodbank.bharatbloodbank.ReviewsActivity;
+import com.bharatbloodbank.bharatbloodbank.Service.GpsTracker;
 import com.bharatbloodbank.bharatbloodbank.SettingActivity;
 import com.bharatbloodbank.bharatbloodbank.TipsActivity;
 import com.google.firebase.database.DataSnapshot;
@@ -40,9 +44,9 @@ import java.util.ArrayList;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
 
-    private String[] category_text;
-    private int[] img;
-    private Context context;
+    private final String[] category_text;
+    private final int[] img;
+    private final Context context;
     private ArrayList<String> DistrictList, StateList, CityList, CITY;
     private AutoCompleteTextView edtDistrict, State, edtCity, City;
     private ProgressDialog mDialog;
@@ -68,20 +72,40 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
         holder.setItemClickListener((view, position1, isLongClick) -> {
 
-            if (category_text[position1].equals("Need Blood"))
-                openSearch();
-            else if (category_text[position1].equals("Blood Bank"))
-                openDialog();
-            else if (category_text[position1].equals("Tips"))
-                context.startActivity(new Intent(context, TipsActivity.class));
-            else if (category_text[position1].equals("Feedback"))
-                context.startActivity(new Intent(context, ContactUs.class));
-            else if (category_text[position1].equals("Reviews"))
-                context.startActivity(new Intent(context, ReviewsActivity.class));
-            else if (category_text[position1].equals("Settings"))
-                context.startActivity(new Intent(context, SettingActivity.class));
-            else
-                Toast.makeText(context, "" + category_text[position1], Toast.LENGTH_SHORT).show();
+            switch (category_text[position1]) {
+                case "Need Blood":
+                    openSearch();
+                    break;
+                case "Blood Bank":
+                    try {
+                        if (ContextCompat.checkSelfPermission(context.getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                            ActivityCompat.requestPermissions((Activity) context, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 101);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    GpsTracker gpsTracker = new GpsTracker(context);
+                    if (!gpsTracker.canGetLocation()) {
+                        gpsTracker.showSettingsAlert();
+                    } else
+                        openDialog();
+                    break;
+                case "Tips":
+                    context.startActivity(new Intent(context, TipsActivity.class));
+                    break;
+                case "Feedback":
+                    context.startActivity(new Intent(context, ContactUs.class));
+                    break;
+                case "Reviews":
+                    context.startActivity(new Intent(context, ReviewsActivity.class));
+                    break;
+                case "Settings":
+                    context.startActivity(new Intent(context, SettingActivity.class));
+                    break;
+                default:
+                    Toast.makeText(context, "" + category_text[position1], Toast.LENGTH_SHORT).show();
+                    break;
+            }
         });
 
     }
@@ -111,41 +135,32 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         City = searchAddress.findViewById(R.id.edtCity);
 
 
-        City.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if (b) {
-                    mDialog.show();
-                    setCity();
-                }
+        City.setOnFocusChangeListener((view, b) -> {
+            if (b) {
+                mDialog.show();
+                setCity();
             }
         });
 
         alertDialog.setView(searchAddress);
         alertDialog.setIcon(R.drawable.ic_home_black_24dp);
 
-        alertDialog.setPositiveButton("SEARCH", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(final DialogInterface dialog, int which) {
+        alertDialog.setPositiveButton("SEARCH", (dialog, which) -> {
 
-                if (City.getText().toString().isEmpty()) {
-                    City.setError("Enter City");
-                    return;
-                }
-                if (!City.getText().toString().isEmpty()) {
-                    Intent intent = new Intent(context, NearBy.class);
-                    intent.putExtra("city", City.getText().toString());
-                    context.startActivity(intent);
-                }
-
+            if (City.getText().toString().isEmpty()) {
+                City.setError("Enter City");
+                return;
             }
+            if (!City.getText().toString().isEmpty()) {
+                Intent intent = new Intent(context, NearBy.class);
+                intent.putExtra("city", City.getText().toString());
+                context.startActivity(intent);
+            }
+
         });
-        alertDialog.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                mDialog.dismiss();
-                dialog.dismiss();
-            }
+        alertDialog.setNegativeButton("CANCEL", (dialog, which) -> {
+            mDialog.dismiss();
+            dialog.dismiss();
         });
         alertDialog.show();
     }
@@ -175,7 +190,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     }
 
     private void openSearch() {
-
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
         alertDialog.setTitle("One more Step!");
         alertDialog.setMessage("Enter Location");
@@ -203,57 +217,45 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         blood.setSelectedIndex(0);
         settingDataOfState();
 
-        edtDistrict.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if (b) {
-                    mDialog.show();
-                    setDistrictData(State.getText().toString());
-                }
+        edtDistrict.setOnFocusChangeListener((view, b) -> {
+            if (b) {
+                mDialog.show();
+                setDistrictData(State.getText().toString());
             }
         });
-        edtCity.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if (b) {
-                    mDialog.show();
-                    setCityData(State.getText().toString());
-                }
+        edtCity.setOnFocusChangeListener((view, b) -> {
+            if (b) {
+                mDialog.show();
+                setCityData(State.getText().toString());
             }
         });
 
         alertDialog.setView(searchAddress);
         alertDialog.setIcon(R.drawable.ic_home_black_24dp);
 
-        alertDialog.setPositiveButton("SEARCH", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(final DialogInterface dialog, int which) {
-                if (State.getText().toString().isEmpty()) {
-                    State.setError("Enter State");
-                    return;
-                }
-                if (edtDistrict.getText().toString().isEmpty()) {
-                    edtDistrict.setError("Enter district");
-                    return;
-                }
-                if (!State.getText().toString().isEmpty() && !edtDistrict.getText().toString().isEmpty()) {
-                    Intent intent = new Intent(context, LoadBlood.class);
-                    intent.putExtra("State", State.getText().toString());
-                    intent.putExtra("District", edtDistrict.getText().toString());
-                    if (!edtCity.getText().toString().isEmpty())
-                        intent.putExtra("City", edtCity.getText().toString());
-                    intent.putExtra("Blood", blood.getItems().get(blood.getSelectedIndex()).toString());
-                    context.startActivity(intent);
-                }
+        alertDialog.setPositiveButton("SEARCH", (dialog, which) -> {
+            if (State.getText().toString().isEmpty()) {
+                State.setError("Enter State");
+                return;
+            }
+            if (edtDistrict.getText().toString().isEmpty()) {
+                edtDistrict.setError("Enter district");
+                return;
+            }
+            if (!State.getText().toString().isEmpty() && !edtDistrict.getText().toString().isEmpty()) {
+                Intent intent = new Intent(context, LoadBlood.class);
+                intent.putExtra("State", State.getText().toString());
+                intent.putExtra("District", edtDistrict.getText().toString());
+                if (!edtCity.getText().toString().isEmpty())
+                    intent.putExtra("City", edtCity.getText().toString());
+                intent.putExtra("Blood", blood.getItems().get(blood.getSelectedIndex()).toString());
+                context.startActivity(intent);
+            }
 
-            }
         });
-        alertDialog.setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                mDialog.dismiss();
-                dialog.dismiss();
-            }
+        alertDialog.setNegativeButton("CANCEL", (dialog, which) -> {
+            mDialog.dismiss();
+            dialog.dismiss();
         });
         alertDialog.show();
     }
@@ -344,7 +346,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView txt_name;
         ImageView view;
 

@@ -37,9 +37,9 @@ import retrofit2.Response;
 
 public class BloodDonorAdapter extends RecyclerView.Adapter<BloodDonorAdapter.ViewHolder> {
 
-    private User[] bloodDonorUser;
-    private Context context;
-    private APIService mService = Common.getFCMClient();
+    private final User[] bloodDonorUser;
+    private final Context context;
+    private final APIService mService = Common.getFCMClient();
 
     public BloodDonorAdapter(User[] bloodDonorUser, Context context) {
         this.bloodDonorUser = bloodDonorUser;
@@ -55,7 +55,7 @@ public class BloodDonorAdapter extends RecyclerView.Adapter<BloodDonorAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
-        //setting data into cardview
+        //setting data into CardView
         holder.txtName.setText(bloodDonorUser[position].getName());
         holder.txtGroup.setText(bloodDonorUser[position].getBloodGroup());
         holder.sendRequest.setVisibility(View.VISIBLE);
@@ -92,27 +92,24 @@ public class BloodDonorAdapter extends RecyclerView.Adapter<BloodDonorAdapter.Vi
             }
         });
 
-        holder.sendRequest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SendRequest send_Request = new SendRequest("+91" + Common.currentUser.getPhone(),
-                        "+91" + bloodDonorUser[position].getPhone(),
-                        "0",
-                        true);
-                sendNotification("+91" + bloodDonorUser[position].getPhone());
+        holder.sendRequest.setOnClickListener(view -> {
+            SendRequest send_Request = new SendRequest("+91" + Common.currentUser.getPhone(),
+                    "+91" + bloodDonorUser[position].getPhone(),
+                    "0",
+                    true);
+            sendNotification("+91" + bloodDonorUser[position].getPhone());
 
-                for (int p = 0; p < Common.userPhone.size(); p++) {
-                    if (Common.userPhone.get(p).equals("+91" + bloodDonorUser[position].getPhone())) {
-                        Common.userPhone.remove(p);
-                        break;
-                    }
+            for (int p = 0; p < Common.userPhone.size(); p++) {
+                if (Common.userPhone.get(p).equals("+91" + bloodDonorUser[position].getPhone())) {
+                    Common.userPhone.remove(p);
+                    break;
                 }
-
-                holder.txtStatus.setText(Common.getStatus("0"));
-                FirebaseDatabase.getInstance().getReference("Requests").child(String.valueOf(UUID.randomUUID())).setValue(send_Request);
-                holder.sendRequest.setVisibility(View.INVISIBLE);
-
             }
+
+            holder.txtStatus.setText(Common.getStatus("0"));
+            FirebaseDatabase.getInstance().getReference("Requests").child(String.valueOf(UUID.randomUUID())).setValue(send_Request);
+            holder.sendRequest.setVisibility(View.INVISIBLE);
+
         });
 
 
@@ -161,7 +158,7 @@ public class BloodDonorAdapter extends RecyclerView.Adapter<BloodDonorAdapter.Vi
                 });
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView txtName, txtStatus, txtGroup;
         public CircleImageView userImage, sendRequest;
         public CardView cardView;

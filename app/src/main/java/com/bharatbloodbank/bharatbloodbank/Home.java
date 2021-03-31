@@ -36,6 +36,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.nex3z.notificationbadge.NotificationBadge;
 
+import java.io.Console;
+
 
 public class Home extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, ConnectivityReceiver.ConnectivityReceiverListener {
@@ -259,10 +261,14 @@ public class Home extends AppCompatActivity
     }
 
     private void updateToken(String token) {
-        FirebaseDatabase db = FirebaseDatabase.getInstance();
-        DatabaseReference tokens = db.getReference("Tokens");
-        Token data = new Token(token, true, true);
-        tokens.child("+91" + Common.currentUser.getPhone()).setValue(data);
+        try{
+            FirebaseDatabase db = FirebaseDatabase.getInstance();
+            DatabaseReference tokens = db.getReference("Tokens");
+            Token data = new Token(token, true, true);
+            tokens.child("+91" + Common.currentUser.getPhone()).setValue(data);
+        }catch(Exception e){
+            Log.d("TOKEN ERROR HOME",e.getMessage());
+        }
     }
 
     @Override

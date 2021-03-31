@@ -103,10 +103,6 @@
                     tools:ignore="BatteryLife" />
             </intent-filter>
         </receiver>
-
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="ef440e643d10993625cbb67b6269acf31d58e051" />
     </application>
 
 </manifest>

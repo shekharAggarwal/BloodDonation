@@ -17,9 +17,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SliderAdapter extends PagerAdapter {
 
-    Context context;
-    LayoutInflater layoutInflater;
-    Slider[] sliders;
+    private final Context context;
+    private final Slider[] sliders;
 
     public SliderAdapter(Context context, Slider[] sliders) {
         this.context = context;
@@ -39,7 +38,7 @@ public class SliderAdapter extends PagerAdapter {
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
-        layoutInflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = layoutInflater.inflate(R.layout.slide_layout, container, false);
 
         CircleImageView slideImageView = view.findViewById(R.id.slider_image);
